@@ -5,8 +5,11 @@ block content
 
 	form(name="add-user", method="post", action="/users/")
 		div.input
-			span.label Title
-			input(type="text", name="name")
+			span.label Email
 			input(type="text", name="email")
+			span.label First Name
+			input(type="text", name="firstName")
+			span.label Last Name
+			input(type="text", name="lastName")
 		div.actions
 			input(type="submit", value="Create")

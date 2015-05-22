@@ -6,17 +6,16 @@ block content
   table
     tr
       td id
-      td Name
-      td created at
-      td updated at
+      td Email
+      td First Name
+      td Last Name
 
     for user in users
       tr
         td #{user.id}
-        td #{user.name}
         td #{user.email}
-        td #{moment(user.createdAt).format("YYYY-MM-DD HH:MM")}
-        td #{moment(user.updatedAt).format("YYYY-MM-DD HH:MM")}
+        td #{user.firstName}
+        td #{user.lastName}
         td
           a(href="/users/#{user.id}/edit") Edit
         td

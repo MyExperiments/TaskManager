@@ -5,8 +5,11 @@ block content
 
 	form(name="edit-user", method="post", action="/users/#{user.id}/update")
 		div.input
-			span.label Name
-			input(type="text", name="name", value="#{user.name}")
+			span.label Email
 			input(type="text", name="email", value="#{user.email}")
+			span.label First Name
+			input(type="text", name="firstName", value="#{user.firstName}")
+			span.label Last Name
+			input(type="text", name="lastName", value="#{user.lastName}")
 		div.actions
 			input(type="submit", value="Update")

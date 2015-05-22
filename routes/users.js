@@ -4,7 +4,7 @@ var router = express.Router();
 var moment = require('moment');
 
 router
-	/* GET users listing. */
+/* GET users listing. */
 	.get('/', function(req, res, next) {
 		models.User.findAll().then(function(users) {
 			res.render('users/index', {
@@ -17,7 +17,9 @@ router
 	/* Create a User */
 	.post('/', function(req, res, next) {
 		models.User.create({
-			name: req.body.name
+			email: req.body.email,
+			firstName: req.body.firstName,
+			lastName: req.body.lastName
 		}).then(function() {
 			res.redirect('/users');
 		});
@@ -46,7 +48,9 @@ router
 			}
 		}).then(function(user) {
 			user.update({
-				name: req.body.name
+				email: req.body.email,
+				firstName: req.body.firstName,
+				lastName: req.body.lastName
 			}).then(function() {
 				res.redirect('/users');
 			});
