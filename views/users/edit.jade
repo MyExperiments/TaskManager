@@ -1,0 +1,12 @@
+extends ../layout
+
+block content
+	h1 Edit User
+
+	form(name="edit-user", method="post", action="/users/#{user.id}/update")
+		div.input
+			span.label Name
+			input(type="text", name="name", value="#{user.name}")
+			input(type="text", name="email", value="#{user.email}")
+		div.actions
+			input(type="submit", value="Update")

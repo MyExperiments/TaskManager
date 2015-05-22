@@ -1,0 +1,23 @@
+extends ../layout
+
+block content
+  h3 Users
+  a(href='/users/new') New User
+  table
+    tr
+      td id
+      td Name
+      td created at
+      td updated at
+
+    for user in users
+      tr
+        td #{user.id}
+        td #{user.name}
+        td #{user.email}
+        td #{moment(user.createdAt).format("YYYY-MM-DD HH:MM")}
+        td #{moment(user.updatedAt).format("YYYY-MM-DD HH:MM")}
+        td
+          a(href="/users/#{user.id}/edit") Edit
+        td
+          a(href="/users/#{user.id}/delete") Delete
