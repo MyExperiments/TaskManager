@@ -16,14 +16,22 @@ router
 	})
 	/* Create a User */
 	.post('/', function(req, res, next) {
-		models.User.create({
-			email: req.body.email,
-			firstName: req.body.firstName,
-			lastName: req.body.lastName
-		}).then(function() {
-			res.redirect('/users');
+		var user = models.User;
+		user.setPassword('password', function(err, password) {
+			console.log('password');
+			console.log(password);
+			if (err) return done(err);
+		    user.create({
+				email: req.body.email,
+				firstName: req.body.firstName,
+				lastName: req.body.lastName,
+				password: password
+			}).then(function() {
+				res.redirect('/users');
+			});
 		});
 	})
+
 	/* Render new form to create user */
 	.get('/new', function(req, res, next) {
 		res.render('users/new')
@@ -35,6 +43,9 @@ router
 				id: req.params.id
 			}
 		}).then(function(user) {
+			// user.verifyPassword('password', function(err, res){
+			// 	console.log(res);
+			// }); // false
 			res.render('users/edit', {
 				user: user.dataValues
 			})
