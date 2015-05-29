@@ -3,9 +3,13 @@ var express = require('express');
 var router = express.Router();
 var moment = require('moment');
 
+var ensureAuthenicated = function(req, res, next) {
+  if (req.isAuthenticated()) { return next(); }
+    res.redirect('/login')
+}
 router
 /* GET users listing. */
-	.get('/', function(req, res, next) {
+	.get('/', ensureAuthenicated, function(req, res, next) {
 		models.User.findAll().then(function(users) {
 			res.render('users/index', {
 				title: 'Express',
@@ -15,7 +19,7 @@ router
 		});
 	})
 	/* Create a User */
-	.post('/', function(req, res, next) {
+	.post('/', ensureAuthenicated, function(req, res, next) {
 		var user = models.User;
 		user.setPassword('password', function(err, password) {
 			console.log('password');
@@ -33,26 +37,23 @@ router
 	})
 
 	/* Render new form to create user */
-	.get('/new', function(req, res, next) {
+	.get('/new', ensureAuthenicated, function(req, res, next) {
 		res.render('users/new')
 	})
 	/* Render edit form to update user */
-	.get('/:id/edit', function(req, res, next) {
+	.get('/:id/edit', ensureAuthenicated, function(req, res, next) {
 		models.User.find({
 			where: {
 				id: req.params.id
 			}
 		}).then(function(user) {
-			// user.verifyPassword('password', function(err, res){
-			// 	console.log(res);
-			// }); // false
 			res.render('users/edit', {
 				user: user.dataValues
 			})
 		});
 	})
 	/* Update user */
-	.post('/:id/update', function(req, res, next) {
+	.post('/:id/update', ensureAuthenicated, function(req, res, next) {
 		models.User.find({
 			where: {
 				id: req.params.id
@@ -68,7 +69,7 @@ router
 		});
 	})
 	/* Delete User*/
-	.get('/:id/delete', function(req, res, next) {
+	.get('/:id/delete', ensureAuthenicated, function(req, res, next) {
 		models.User.find({
 			where: {
 				id: req.params.id

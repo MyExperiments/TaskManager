@@ -1,0 +1,14 @@
+extends ../layout
+
+block content
+    if message
+        p message
+
+    form(name="login", method="post", action="/login")
+        div.input
+            span.label Email
+            input(type="text", name="email")
+            span.label Password
+            input(type="password", name="password")
+        div.actions
+            input(type="submit", value="Login")
