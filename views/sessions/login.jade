@@ -2,7 +2,7 @@ extends ../layout
 
 block content
     if message
-        p message
+        p #{message}
 
     form(name="login", method="post", action="/login")
         div.input
