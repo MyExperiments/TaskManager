@@ -3,35 +3,6 @@ var passport = require('passport');
 
 require('./config/passport')(passport);
 
-
-function findByEmail(email, fn) {
-  models.User.find({
-    where: {
-      email: email
-    }
-  }).then(function(user) {
-    if (!user) {
-      return fn(null, null);
-    } else {
-      return fn(null, user);
-    }
-  });
-}
-
-function findById(id, fn) {
-  models.User.find({
-    where: {
-      id: id
-    }
-  }).then(function(user) {
-    if (!user) {
-      return fn(new Error('User ' + id + ' does not exist'));
-    } else {
-      return fn(null, user);
-    }
-  });
-}
-
 var bodyParser = require('body-parser')
 var path = require('path');
 var favicon = require('serve-favicon');
