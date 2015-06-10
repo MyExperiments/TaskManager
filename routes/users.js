@@ -4,8 +4,10 @@ var router = express.Router();
 var moment = require('moment');
 
 var ensureAuthenicated = function(req, res, next) {
-  if (req.isAuthenticated()) { return next(); }
-    res.redirect('/login')
+	if (req.isAuthenticated()) {
+		return next();
+	}
+	res.redirect('/login')
 }
 router
 /* GET users listing. */
@@ -14,7 +16,7 @@ router
 			res.render('users/index', {
 				title: 'Express',
 				users: users,
-				moment: moment
+				moment: moment,
 			});
 		});
 	})
@@ -25,7 +27,7 @@ router
 			console.log('password');
 			console.log(password);
 			if (err) return done(err);
-		    user.create({
+			user.create({
 				email: req.body.email,
 				firstName: req.body.firstName,
 				lastName: req.body.lastName,
@@ -36,9 +38,10 @@ router
 		});
 	})
 
-	/* Render new form to create user */
-	.get('/new', ensureAuthenicated, function(req, res, next) {
-		res.render('users/new')
+/* Render new form to create user */
+.get('/new', ensureAuthenicated, function(req, res, next) {
+		res.render('users/new');
+
 	})
 	/* Render edit form to update user */
 	.get('/:id/edit', ensureAuthenicated, function(req, res, next) {

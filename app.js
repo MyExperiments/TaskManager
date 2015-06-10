@@ -7,6 +7,7 @@ var bodyParser = require('body-parser')
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
+var csrf = require('csurf')
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var Sequelize = require("sequelize");
@@ -34,7 +35,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(expressSession({
   secret: 'ABCXYT$$%^%&^*&44556',
   resave: true,
-  saveUninitialized: true
+  saveUninitialized: true,
+  cookie: {
+    expires: new Date(Date.now() + 60 * 10000),
+    maxAge: 60 * 10000
+  }
 }));
 // Initialize Passport!  Also use passport.session() middleware, to support
 // persistent login sessions (recommended).
@@ -42,9 +47,18 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash()); // use connect-flash for flash messages stored in session
 
+app.use(csrf({
+  cookie: true
+}));
+
+app.use(function(req, res, next) {
+  res.locals.csrftoken = req.csrfToken();
+  console.log(res.locals);
+  next();
+});
+
 app.use('/', routes);
 app.use('/users', users);
-
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -53,7 +67,6 @@ app.use(function(req, res, next) {
   next(err);
 });
 
-mysql = require('mysql');
 
 // error handlers
 
@@ -79,10 +92,19 @@ app.use(function(err, req, res, next) {
   });
 });
 
-ensureAuthenticated = function (req, res, next) {
+app.use(function(err, req, res, next) {
+  if (err.code !== 'EBADCSRFTOKEN') return next(err)
+
+  // handle CSRF token errors here
+  res.status(403)
+  res.send('form tampered with')
+});
+
+ensureAuthenticated = function(req, res, next) {
   if (req.isAuthenticated()) {
     return next();
   }
   res.redirect('/login')
 }
+
 module.exports = app;

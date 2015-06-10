@@ -5,11 +5,9 @@ block content
 
 	form(name="edit-user", method="post", action="/users/#{user.id}/update")
 		div.input
-			span.label Email
-			input(type="text", name="email", value="#{user.email}")
-			span.label First Name
-			input(type="text", name="firstName", value="#{user.firstName}")
-			span.label Last Name
-			input(type="text", name="lastName", value="#{user.lastName}")
+			input(type="hidden", name="_csrf", value="#{csrftoken}")
+			input(type="text", name="email", value="#{user.email}", placeholder="Email")
+			input(type="text", name="firstName", value="#{user.firstName}", placeholder="First Name")
+			input(type="text", name="lastName", value="#{user.lastName}", placeholder="Last Name")
 		div.actions
 			input(type="submit", value="Update")
