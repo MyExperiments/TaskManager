@@ -35,11 +35,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(expressSession({
   secret: 'ABCXYT$$%^%&^*&44556',
   resave: true,
-  saveUninitialized: true,
-  cookie: {
-    expires: new Date(Date.now() + 60 * 10000),
-    maxAge: 60 * 10000
-  }
+  saveUninitialized: true
 }));
 // Initialize Passport!  Also use passport.session() middleware, to support
 // persistent login sessions (recommended).
@@ -51,7 +47,7 @@ app.use(csrf({
   cookie: true
 }));
 
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   res.locals.csrftoken = req.csrfToken();
   console.log(res.locals);
   next();
@@ -92,7 +88,7 @@ app.use(function(err, req, res, next) {
   });
 });
 
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   if (err.code !== 'EBADCSRFTOKEN') return next(err)
 
   // handle CSRF token errors here
