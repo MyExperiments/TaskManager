@@ -15,6 +15,22 @@ var routes = require('./routes/index');
 var users = require('./routes/users');
 var app = express();
 var expressSession = require('express-session');
+var KnexSessionStore = require('connect-session-knex')(expressSession);
+var Knex = require('knex');
+var storeOptions = {
+  client: 'mysql',
+  connection: {
+    host: '127.0.0.1',
+    user: 'root',
+    password: 'qburst',
+    database: 'nodejs_myapp'
+  }
+}
+var knex = Knex(storeOptions);
+var store = new KnexSessionStore({
+  knex: knex,
+  tablename: 'sessions'
+});
 var flash = require('connect-flash');
 
 // view engine setup
@@ -35,7 +51,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(expressSession({
   secret: 'ABCXYT$$%^%&^*&44556',
   resave: true,
-  saveUninitialized: true
+  saveUninitialized: true,
+  store: store
 }));
 // Initialize Passport!  Also use passport.session() middleware, to support
 // persistent login sessions (recommended).
@@ -47,9 +64,11 @@ app.use(csrf({
   cookie: true
 }));
 
-app.use(function (req, res, next) {
+app.use(function(req, res, next) {
   res.locals.csrftoken = req.csrfToken();
-  console.log(res.locals);
+  res.locals.currentUser = req.user;
+  console.log("currentUser");
+  console.log(req.user);
   next();
 });
 
@@ -88,7 +107,7 @@ app.use(function(err, req, res, next) {
   });
 });
 
-app.use(function (err, req, res, next) {
+app.use(function(err, req, res, next) {
   if (err.code !== 'EBADCSRFTOKEN') return next(err)
 
   // handle CSRF token errors here
