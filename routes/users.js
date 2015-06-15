@@ -17,6 +17,7 @@ router
 				title: 'Express',
 				users: users,
 				moment: moment,
+				tab: 'users'
 			});
 		});
 	})
@@ -40,7 +41,9 @@ router
 
 /* Render new form to create user */
 .get('/new', ensureAuthenicated, function(req, res, next) {
-		res.render('users/new');
+		res.render('users/new', {
+			tab: 'users'
+		});
 
 	})
 	/* Render edit form to update user */
@@ -51,7 +54,8 @@ router
 			}
 		}).then(function(user) {
 			res.render('users/edit', {
-				user: user.dataValues
+				user: user.dataValues,
+				tab: 'users'
 			})
 		});
 	})

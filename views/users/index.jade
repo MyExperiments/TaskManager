@@ -1,22 +1,24 @@
 extends ../layout
 
 block content
-  h3 Users
-  a(href='/users/new') New User
-  table
-    tr
-      td id
-      td Email
-      td First Name
-      td Last Name
-
-    for user in users
-      tr
-        td #{user.id}
-        td #{user.email}
-        td #{user.firstName}
-        td #{user.lastName}
-        td
-          a(href="/users/#{user.id}/edit") Edit
-        td
-          a(href="/users/#{user.id}/delete") Delete
+    h1 Users
+    a(href='/users/new') New User
+    .table-responsive
+        table.table.table-striped
+            thead
+                tr
+                    th id
+                    th Email
+                    th First Name
+                    th Last Name
+            tbody
+                for user in users
+                    tr
+                        td #{user.id}
+                        td #{user.email}
+                        td #{user.firstName}
+                        td #{user.lastName}
+                        td
+                            a(href="/users/#{user.id}/edit") Edit
+                        td
+                            a(href="/users/#{user.id}/delete") Delete
