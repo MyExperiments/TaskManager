@@ -23,7 +23,7 @@ html
                         li
                             if currentUser
                                 a(href='/logout') Logout
-                            else
+                            else if tab != 'login'
                                 a(href='/login') Login
 
 

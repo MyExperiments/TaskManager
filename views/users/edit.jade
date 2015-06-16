@@ -1,13 +1,24 @@
 extends ../layout
 
 block content
-	h1 Edit User
+    h1 Users
 
-	form(name="edit-user", method="post", action="/users/#{user.id}/update")
-		div.input
-			input(type="hidden", name="_csrf", value="#{csrftoken}")
-			input(type="text", name="email", value="#{user.email}", placeholder="Email")
-			input(type="text", name="firstName", value="#{user.firstName}", placeholder="First Name")
-			input(type="text", name="lastName", value="#{user.lastName}", placeholder="Last Name")
-		div.actions
-			input(type="submit", value="Update")
+    h2 New User
+
+    form.form-horizontal(name="edit-user", method="post", action="/users/#{user.id}/update", role='form')
+        input(type="hidden", name="_csrf", value="#{csrftoken}")
+        .form-group
+            label.control-label.col-sm-2(for='email') Email address
+            .col-sm-10
+                input(type="text", name="email", value="#{user.email}")
+        .form-group
+            label.control-label.col-sm-2(for='firstName') First Name
+            .col-sm-10
+                input(type="text", name="firstName", value="#{user.firstName}")
+        .form-group
+            label.control-label.col-sm-2(for='lastName') Last Name
+            .col-sm-10
+                input(type="text", name="lastName", value="#{user.lastName}")
+        .form-group
+            .col-sm-offset-2.col-sm-10
+                button.btn.btn-default(type='submit') Submit

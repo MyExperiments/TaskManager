@@ -14,9 +14,13 @@ router.get('/', function(req, res, next) {
 
 // GET#login
 router.get('/login', function(req, res) {
+	if (req.user) {
+		res.redirect('/users');
+	}
 	res.render('sessions/login', {
 		user: req.user,
-		message: req.flash('loginMessage')
+		message: req.flash('loginMessage'),
+		tab: 'login'
 	});
 });
 
@@ -31,8 +35,8 @@ router.post('/login',
 
 // GET#logout
 router.get('/logout', function(req, res) {
-  req.logout();
-  res.redirect('/login');
+	req.logout();
+	res.redirect('/login');
 });
 
 
