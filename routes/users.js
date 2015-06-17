@@ -24,9 +24,7 @@ router
 	/* Create a User */
 	.post('/', ensureAuthenicated, function(req, res, next) {
 		var user = models.User;
-		user.setPassword('password', function(err, password) {
-			console.log('password');
-			console.log(password);
+		user.setPassword('user@123$%^', function(err, password) {
 			if (err) return done(err);
 			user.create({
 				email: req.body.email,

@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
   up: function(queryInterface, Sequelize) {
-    return queryInterface.createTable('Users', {
+    queryInterface.createTable('Users', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -29,6 +29,18 @@ module.exports = {
         type: Sequelize.DATE
       }
     });
+
+    var User = require('../models').User;
+    User.setPassword('admin@123$%^', function(err, password) {
+      if (err) return;
+      User.create({
+        email: 'admin@taskmanager.com',
+        firstName: 'admin',
+        lastName: 'admin',
+        password: password
+      });
+    });
+    return
   },
   down: function(queryInterface, Sequelize) {
     return queryInterface.dropTable('Users');
